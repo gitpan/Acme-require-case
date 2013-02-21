@@ -17,6 +17,7 @@ my @modules = qw(
   File::Temp
   List::Util
   Path::Tiny
+  Sub::Uplevel
   Test::Fatal
   Test::More
   strict

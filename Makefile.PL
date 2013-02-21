@@ -30,11 +30,12 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {
     "Carp" => 0,
     "Path::Tiny" => 0,
+    "Sub::Uplevel" => 0,
     "strict" => 0,
     "version" => "0.87",
     "warnings" => 0
   },
-  "VERSION" => "0.003",
+  "VERSION" => "0.004",
   "test" => {
     "TESTS" => "t/*.t"
   }

@@ -1,17 +1,16 @@
 use 5.008001;
 use strict;
 use warnings;
-no warnings 'once';
+no warnings qw/once redefine/;
 
 package Acme::require::case;
 # ABSTRACT: Make Perl's require case-sensitive
-our $VERSION = '0.003'; # VERSION
+our $VERSION = '0.004'; # VERSION
 
 use Carp qw/croak/;
 use Path::Tiny;
+use Sub::Uplevel ();
 use version 0.87;
-
-*CORE::GLOBAL::require = \&require_casely;
 
 sub require_casely {
     my ($filename) = @_;
@@ -35,7 +34,9 @@ sub require_casely {
                 my ($valid, $actual) = _case_correct( $prefix, $filename );
                 if ( $valid ) {
                     $INC{$filename} = $realfilename;
-                    $result = do $realfilename;
+                    # uplevel so calling package looks right
+                    my $caller = caller(0);
+                    $result = eval qq{ package $caller; Sub::Uplevel::uplevel(3, sub { do \$realfilename }) };
                     last ITER;
                 }
                 else {
@@ -76,6 +77,8 @@ sub _case_correct {
     return ($valid, $search->relative($prefix));
 }
 
+*CORE::GLOBAL::require = \&require_casely;
+
 1;
 
 
@@ -91,7 +94,7 @@ Acme::require::case - Make Perl's require case-sensitive
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 
@@ -110,7 +113,7 @@ case-insensitive filesystems.
 To be effective, it should be loaded as early as possible, perhaps on the
 command line:
 
-    perl -MAcme::require:;case myprogram.pl
+    perl -MAcme::require::case myprogram.pl
 
 You certainly don't want to run this in production, but it might be good for
 your editor's compile command, or in C<PERL5OPT> during testing.
@@ -121,6 +124,10 @@ If you're really daring you can stick it in your shell:
 
 This module walks the filesystem checking case for every C<require>, so
 it is significantly slower than the built-in C<require> function.
+
+Global C<require> overrides are slightly buggy prior to Perl 5.12.  If you
+really care about such things, load L<Lexical::SealRequireHints> after
+you load this one.
 
 =for Pod::Coverage require_casely
 

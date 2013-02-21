@@ -2,7 +2,7 @@ NAME
     Acme::require::case - Make Perl's require case-sensitive
 
 VERSION
-    version 0.003
+    version 0.004
 
 SYNOPSIS
       use Acme::require::case;
@@ -19,7 +19,7 @@ DESCRIPTION
     To be effective, it should be loaded as early as possible, perhaps on
     the command line:
 
-        perl -MAcme::require:;case myprogram.pl
+        perl -MAcme::require::case myprogram.pl
 
     You certainly don't want to run this in production, but it might be good
     for your editor's compile command, or in "PERL5OPT" during testing.
@@ -30,6 +30,10 @@ DESCRIPTION
 
     This module walks the filesystem checking case for every "require", so
     it is significantly slower than the built-in "require" function.
+
+    Global "require" overrides are slightly buggy prior to Perl 5.12. If you
+    really care about such things, load Lexical::SealRequireHints after you
+    load this one.
 
 SUPPORT
   Bugs / Feature Requests
