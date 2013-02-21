@@ -1,0 +1,43 @@
+---
+abstract: "Make Perl's require case-sensitive"
+author:
+  - 'David Golden <dagolden@cpan.org>'
+build_requires:
+  ExtUtils::MakeMaker: 0
+  File::Find: 0
+  File::Spec::Functions: 0
+  File::Temp: 0
+  List::Util: 0
+  Test::Fatal: 0
+  Test::More: 0.96
+configure_requires:
+  ExtUtils::MakeMaker: 6.30
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.300029, CPAN::Meta::Converter version 2.120921'
+license: apache
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Acme-require-case
+no_index:
+  directory:
+    - t
+    - xt
+    - examples
+    - corpus
+  package:
+    - DB
+provides:
+  Acme::require::case:
+    file: lib/Acme/require/case.pm
+    version: 0.001
+requires:
+  Path::Tiny: 0
+  strict: 0
+  version: 0.87
+  warnings: 0
+resources:
+  bugtracker: https://github.com/dagolden/acme-require-case/issues
+  homepage: https://metacpan.org/release/Acme-require-case
+  repository: git://github.com/dagolden/acme-require-case.git
+version: 0.001
