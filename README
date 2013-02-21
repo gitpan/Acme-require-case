@@ -2,7 +2,7 @@ NAME
     Acme::require::case - Make Perl's require case-sensitive
 
 VERSION
-    version 0.004
+    version 0.005
 
 SYNOPSIS
       use Acme::require::case;
@@ -16,8 +16,9 @@ DESCRIPTION
     check for its argument. This prevents "require foo" from loading
     "Foo.pm" on case-insensitive filesystems.
 
-    To be effective, it should be loaded as early as possible, perhaps on
-    the command line:
+    It does not respect any prior "require" overrides, since it completely
+    replaces "require" semantics. Therefore, it should be loaded as early as
+    possible, perhaps on the command line:
 
         perl -MAcme::require::case myprogram.pl
 

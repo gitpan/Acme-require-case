@@ -13,6 +13,11 @@ t/00-compile.t
 t/00-report-prereqs.t
 t/lib/Foo.pm
 t/lib/Foo/Bar/Baz.pm
+t/lib/dies.pm
+t/lib/false.pm
+t/lib/lookup.pm
+t/lib/only_once.pm
+t/lib/wrapper.pm
 t/require.t
 tidyall.ini
 xt/author/critic.t

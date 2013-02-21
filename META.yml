@@ -3,6 +3,7 @@ abstract: "Make Perl's require case-sensitive"
 author:
   - 'David Golden <dagolden@cpan.org>'
 build_requires:
+  Capture::Tiny: 0
   ExtUtils::MakeMaker: 0
   File::Find: 0
   File::Spec::Functions: 0
@@ -30,7 +31,7 @@ no_index:
 provides:
   Acme::require::case:
     file: lib/Acme/require/case.pm
-    version: 0.004
+    version: 0.005
 requires:
   Carp: 0
   Path::Tiny: 0
@@ -42,4 +43,4 @@ resources:
   bugtracker: https://github.com/dagolden/acme-require-case/issues
   homepage: https://metacpan.org/release/Acme-require-case
   repository: git://github.com/dagolden/acme-require-case.git
-version: 0.004
+version: 0.005

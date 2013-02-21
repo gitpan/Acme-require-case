@@ -12,6 +12,7 @@ my %WriteMakefileArgs = (
   "ABSTRACT" => "Make Perl's require case-sensitive",
   "AUTHOR" => "David Golden <dagolden\@cpan.org>",
   "BUILD_REQUIRES" => {
+    "Capture::Tiny" => 0,
     "ExtUtils::MakeMaker" => 0,
     "File::Find" => 0,
     "File::Spec::Functions" => 0,
@@ -35,7 +36,7 @@ my %WriteMakefileArgs = (
     "version" => "0.87",
     "warnings" => 0
   },
-  "VERSION" => "0.004",
+  "VERSION" => "0.005",
   "test" => {
     "TESTS" => "t/*.t"
   }

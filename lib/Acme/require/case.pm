@@ -5,7 +5,7 @@ no warnings qw/once redefine/;
 
 package Acme::require::case;
 # ABSTRACT: Make Perl's require case-sensitive
-our $VERSION = '0.004'; # VERSION
+our $VERSION = '0.005'; # VERSION
 
 use Carp qw/croak/;
 use Path::Tiny;
@@ -36,7 +36,8 @@ sub require_casely {
                     $INC{$filename} = $realfilename;
                     # uplevel so calling package looks right
                     my $caller = caller(0);
-                    $result = eval qq{ package $caller; Sub::Uplevel::uplevel(3, sub { do \$realfilename }) };
+                    my $packaged_do = eval qq{ package $caller; sub { do \$_[0] } };
+                    $result = Sub::Uplevel::uplevel( 2, $packaged_do, $realfilename);
                     last ITER;
                 }
                 else {
@@ -52,7 +53,7 @@ sub require_casely {
     }
     elsif ( !$result ) {
         delete $INC{$filename};
-        croak "$filename did not return true value";
+        croak "$filename did not return a true value";
     }
     else {
         return $result;
@@ -94,7 +95,7 @@ Acme::require::case - Make Perl's require case-sensitive
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 SYNOPSIS
 
@@ -110,8 +111,9 @@ This module overrides C<CORE::GLOBAL::require> to make a case-sensitive check
 for its argument.  This prevents C<require foo> from loading "Foo.pm" on
 case-insensitive filesystems.
 
-To be effective, it should be loaded as early as possible, perhaps on the
-command line:
+It does not respect any prior C<require> overrides, since it completely
+replaces C<require> semantics.  Therefore, it should be loaded as early as
+possible, perhaps on the command line:
 
     perl -MAcme::require::case myprogram.pl
 
