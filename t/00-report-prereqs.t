@@ -10,6 +10,7 @@ use File::Spec::Functions;
 use List::Util qw/max/;
 
 my @modules = qw(
+  Carp
   ExtUtils::MakeMaker
   File::Find
   File::Spec::Functions

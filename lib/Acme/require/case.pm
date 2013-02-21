@@ -5,8 +5,9 @@ no warnings 'once';
 
 package Acme::require::case;
 # ABSTRACT: Make Perl's require case-sensitive
-our $VERSION = '0.001'; # VERSION
+our $VERSION = '0.002'; # VERSION
 
+use Carp qw/croak/;
 use Path::Tiny;
 use version 0.87;
 
@@ -18,13 +19,13 @@ sub require_casely {
     if ( my $v = eval { version->parse($filename) } ) {
         if ( $v > $^V ) {
             my $which = $v->normal;
-            die "Perl $which required--this is only $^V, stopped";
+            croak "Perl $which required--this is only $^V, stopped";
         }
         return 1;
     }
     if ( exists $INC{$filename} ) {
         return 1 if $INC{$filename};
-        die "Compilation failed in require";
+        croak "Compilation failed in require";
     }
     my ( $realfilename, $result );
     ITER: {
@@ -37,19 +38,19 @@ sub require_casely {
                     last ITER;
                 }
                 else {
-                    die "$filename has incorrect case at $prefix";
+                    croak "$filename has incorrect case at $prefix";
                 }
             }
         }
-        die "Can't find $filename in \@INC (\@INC contains @INC)";
+        croak "Can't find $filename in \@INC (\@INC contains @INC)";
     }
-    if ( $@ || $! ) {
+    if ( $@ ) {
         $INC{$filename} = undef;
-        die $@ ? $@ : $!;
+        croak $@;
     }
     elsif ( !$result ) {
         delete $INC{$filename};
-        die "$filename did not return true value";
+        croak "$filename did not return true value";
     }
     else {
         return $result;
@@ -85,7 +86,7 @@ Acme::require::case - Make Perl's require case-sensitive
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
