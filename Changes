@@ -1,5 +1,11 @@
 Revision history for Acme-require-case
 
+0.003     2013-02-21 10:48:48 America/New_York
+
+    [CHANGED]
+
+    - improved error message with a suggestion for proper case
+
 0.002     2013-02-21 08:57:00 America/New_York
 
     [CHANGED]

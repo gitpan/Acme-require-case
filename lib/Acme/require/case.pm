@@ -5,7 +5,7 @@ no warnings 'once';
 
 package Acme::require::case;
 # ABSTRACT: Make Perl's require case-sensitive
-our $VERSION = '0.002'; # VERSION
+our $VERSION = '0.003'; # VERSION
 
 use Carp qw/croak/;
 use Path::Tiny;
@@ -32,13 +32,14 @@ sub require_casely {
         foreach my $prefix ( map { path($_) } @INC ) {
             $realfilename = $prefix->child($filename);
             if ( $realfilename->is_file ) {
-                if ( _case_correct( $prefix, $filename ) ) {
+                my ($valid, $actual) = _case_correct( $prefix, $filename );
+                if ( $valid ) {
                     $INC{$filename} = $realfilename;
                     $result = do $realfilename;
                     last ITER;
                 }
                 else {
-                    croak "$filename has incorrect case at $prefix";
+                    croak "$filename has incorrect case (maybe you want $actual instead?)";
                 }
             }
         }
@@ -59,16 +60,20 @@ sub require_casely {
 
 sub _case_correct {
     my ( $prefix, $filename ) = @_;
+    my $search = path($prefix); # clone
     my @parts = split qr{/}, $filename;
+    my $valid = 1;
     while ( my $p = shift @parts ) {
-        if ( grep { $p eq $_ } map { $_->basename } $prefix->children ) {
-            $prefix = $prefix->child($p);
+        if ( grep { $p eq $_ } map { $_->basename } $search->children ) {
+            $search = $search->child($p);
         }
         else {
-            return 0;
+            $valid = 0;
+            my ($actual) = grep { lc $p eq lc $_ } map { $_->basename } $search->children;
+            $search = $search->child($actual);
         }
     }
-    return 1;
+    return ($valid, $search->relative($prefix));
 }
 
 1;
@@ -86,7 +91,7 @@ Acme::require::case - Make Perl's require case-sensitive
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 
