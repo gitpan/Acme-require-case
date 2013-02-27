@@ -14,7 +14,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.30
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300029, CPAN::Meta::Converter version 2.120921'
+generated_by: 'Dist::Zilla version 4.300030, CPAN::Meta::Converter version 2.120921'
 license: apache
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -31,7 +31,7 @@ no_index:
 provides:
   Acme::require::case:
     file: lib/Acme/require/case.pm
-    version: 0.005
+    version: 0.006
 requires:
   Carp: 0
   Path::Tiny: 0
@@ -43,4 +43,5 @@ resources:
   bugtracker: https://github.com/dagolden/acme-require-case/issues
   homepage: https://metacpan.org/release/Acme-require-case
   repository: git://github.com/dagolden/acme-require-case.git
-version: 0.005
+version: 0.006
+x_contributors: []

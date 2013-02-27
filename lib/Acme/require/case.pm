@@ -5,7 +5,7 @@ no warnings qw/once redefine/;
 
 package Acme::require::case;
 # ABSTRACT: Make Perl's require case-sensitive
-our $VERSION = '0.005'; # VERSION
+our $VERSION = '0.006'; # VERSION
 
 use Carp qw/croak/;
 use Path::Tiny;
@@ -36,7 +36,7 @@ sub require_casely {
                     $INC{$filename} = $realfilename;
                     # uplevel so calling package looks right
                     my $caller = caller(0);
-                    my $packaged_do = eval qq{ package $caller; sub { do \$_[0] } };
+                    my $packaged_do = eval qq{ package $caller; sub { local %^H; do \$_[0] } };
                     $result = Sub::Uplevel::uplevel( 2, $packaged_do, $realfilename);
                     last ITER;
                 }
@@ -45,7 +45,7 @@ sub require_casely {
                 }
             }
         }
-        croak "Can't find $filename in \@INC (\@INC contains @INC)";
+        croak "Can't locate $filename in \@INC (\@INC contains @INC)";
     }
     if ( $@ ) {
         $INC{$filename} = undef;
@@ -95,7 +95,7 @@ Acme::require::case - Make Perl's require case-sensitive
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 SYNOPSIS
 
