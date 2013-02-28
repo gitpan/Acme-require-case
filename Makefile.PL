@@ -29,14 +29,16 @@ my %WriteMakefileArgs = (
   "LICENSE" => "apache",
   "NAME" => "Acme::require::case",
   "PREREQ_PM" => {
+    "B" => 0,
     "Carp" => 0,
     "Path::Tiny" => 0,
+    "Scalar::Util" => 0,
     "Sub::Uplevel" => 0,
     "strict" => 0,
     "version" => "0.87",
     "warnings" => 0
   },
-  "VERSION" => "0.006",
+  "VERSION" => "0.007",
   "test" => {
     "TESTS" => "t/*.t"
   }

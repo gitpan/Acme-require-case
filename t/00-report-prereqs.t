@@ -10,6 +10,7 @@ use File::Spec::Functions;
 use List::Util qw/max/;
 
 my @modules = qw(
+  B
   Capture::Tiny
   Carp
   ExtUtils::MakeMaker
@@ -18,6 +19,7 @@ my @modules = qw(
   File::Temp
   List::Util
   Path::Tiny
+  Scalar::Util
   Sub::Uplevel
   Test::Fatal
   Test::More

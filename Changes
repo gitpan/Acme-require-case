@@ -1,5 +1,13 @@
 Revision history for Acme-require-case
 
+0.007     2013-02-28 11:19:55 America/New_York
+
+    [FIXED]
+
+    - resets $! on successful load, just like CORE::require
+
+    - even closer to CORE::require semantics for checking version numbers
+
 0.006     2013-02-27 18:08:30 America/New_York
 
     [FIXED]

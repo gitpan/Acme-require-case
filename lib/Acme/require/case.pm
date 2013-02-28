@@ -5,21 +5,22 @@ no warnings qw/once redefine/;
 
 package Acme::require::case;
 # ABSTRACT: Make Perl's require case-sensitive
-our $VERSION = '0.006'; # VERSION
+our $VERSION = '0.007'; # VERSION
 
+use B;
 use Carp qw/croak/;
-use Path::Tiny;
-use Sub::Uplevel ();
+use Path::Tiny qw/path/;
+use Scalar::Util qw/isvstring/;
+use Sub::Uplevel qw/uplevel/;
 use version 0.87;
 
 sub require_casely {
     my ($filename) = @_;
-    # looks like a version number check
-    if ( my $v = eval { version->parse($filename) } ) {
-        if ( $v > $^V ) {
-            my $which = $v->normal;
-            croak "Perl $which required--this is only $^V, stopped";
-        }
+    if ( _looks_like_version($filename) ) {
+        my $v = eval { version->new($filename) };
+        croak $@ if $@;
+        croak "Perl @{[$v->normal]} required--this is only $^V, stopped"
+            if $v > $^V;
         return 1;
     }
     if ( exists $INC{$filename} ) {
@@ -31,13 +32,13 @@ sub require_casely {
         foreach my $prefix ( map { path($_) } @INC ) {
             $realfilename = $prefix->child($filename);
             if ( $realfilename->is_file ) {
-                my ($valid, $actual) = _case_correct( $prefix, $filename );
-                if ( $valid ) {
+                my ( $valid, $actual ) = _case_correct( $prefix, $filename );
+                if ($valid) {
                     $INC{$filename} = $realfilename;
                     # uplevel so calling package looks right
-                    my $caller = caller(0);
+                    my $caller      = caller(0);
                     my $packaged_do = eval qq{ package $caller; sub { local %^H; do \$_[0] } };
-                    $result = Sub::Uplevel::uplevel( 2, $packaged_do, $realfilename);
+                    $result = uplevel( 2, $packaged_do, $realfilename );
                     last ITER;
                 }
                 else {
@@ -47,7 +48,7 @@ sub require_casely {
         }
         croak "Can't locate $filename in \@INC (\@INC contains @INC)";
     }
-    if ( $@ ) {
+    if ($@) {
         $INC{$filename} = undef;
         croak $@;
     }
@@ -56,15 +57,16 @@ sub require_casely {
         croak "$filename did not return a true value";
     }
     else {
+        $! = 0;
         return $result;
     }
 }
 
 sub _case_correct {
     my ( $prefix, $filename ) = @_;
-    my $search = path($prefix); # clone
-    my @parts = split qr{/}, $filename;
-    my $valid = 1;
+    my $search = path($prefix);         # clone
+    my @parts  = split qr{/}, $filename;
+    my $valid  = 1;
     while ( my $p = shift @parts ) {
         if ( grep { $p eq $_ } map { $_->basename } $search->children ) {
             $search = $search->child($p);
@@ -75,7 +77,13 @@ sub _case_correct {
             $search = $search->child($actual);
         }
     }
-    return ($valid, $search->relative($prefix));
+    return ( $valid, $search->relative($prefix) );
+}
+
+sub _looks_like_version {
+    my ($v) = @_;
+    return 1 if isvstring($v);
+    return B::svref_2object( \$v )->FLAGS & ( B::SVp_NOK | B::SVp_IOK );
 }
 
 *CORE::GLOBAL::require = \&require_casely;
@@ -95,7 +103,7 @@ Acme::require::case - Make Perl's require case-sensitive
 
 =head1 VERSION
 
-version 0.006
+version 0.007
 
 =head1 SYNOPSIS
 

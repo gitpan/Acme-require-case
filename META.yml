@@ -31,10 +31,12 @@ no_index:
 provides:
   Acme::require::case:
     file: lib/Acme/require/case.pm
-    version: 0.006
+    version: 0.007
 requires:
+  B: 0
   Carp: 0
   Path::Tiny: 0
+  Scalar::Util: 0
   Sub::Uplevel: 0
   strict: 0
   version: 0.87
@@ -43,5 +45,5 @@ resources:
   bugtracker: https://github.com/dagolden/acme-require-case/issues
   homepage: https://metacpan.org/release/Acme-require-case
   repository: git://github.com/dagolden/acme-require-case.git
-version: 0.006
+version: 0.007
 x_contributors: []
