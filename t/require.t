@@ -3,7 +3,9 @@ use strict;
 use warnings;
 use Test::More 0.96;
 use Test::Fatal;
+use Test::FailWarnings;
 use Capture::Tiny qw/capture/;
+use File::Spec;
 use lib 't/lib';
 
 plan skip_all => "Your filesystem respects case"
@@ -47,6 +49,10 @@ $err = exception { require only_once };
 is( $err, undef, "only_once: required OK" );
 $err = exception { require only_once };
 is( $err, undef, "only_once: required again without dying" );
+
+my $abs = File::Spec->rel2abs('t/lib/Absolute.pm');
+$err = exception { require $abs };
+is( $err, undef, "absolute path" );
 
 #--------------------------------------------------------------------------#
 # Fails like CORE::require

@@ -15,9 +15,11 @@ my %WriteMakefileArgs = (
     "Capture::Tiny" => 0,
     "ExtUtils::MakeMaker" => 0,
     "File::Find" => 0,
+    "File::Spec" => 0,
     "File::Spec::Functions" => 0,
     "File::Temp" => 0,
     "List::Util" => 0,
+    "Test::FailWarnings" => 0,
     "Test::Fatal" => 0,
     "Test::More" => "0.96"
   },
@@ -38,7 +40,7 @@ my %WriteMakefileArgs = (
     "version" => "0.87",
     "warnings" => 0
   },
-  "VERSION" => "0.008",
+  "VERSION" => "0.009",
   "test" => {
     "TESTS" => "t/*.t"
   }

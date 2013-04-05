@@ -11,6 +11,7 @@ lib/Acme/require/case.pm
 perlcritic.rc
 t/00-compile.t
 t/00-report-prereqs.t
+t/lib/Absolute.pm
 t/lib/Foo.pm
 t/lib/Foo/Bar/Baz.pm
 t/lib/dies.pm

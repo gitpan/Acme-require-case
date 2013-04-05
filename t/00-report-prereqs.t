@@ -15,12 +15,14 @@ my @modules = qw(
   Carp
   ExtUtils::MakeMaker
   File::Find
+  File::Spec
   File::Spec::Functions
   File::Temp
   List::Util
   Path::Tiny
   Scalar::Util
   Sub::Uplevel
+  Test::FailWarnings
   Test::Fatal
   Test::More
   strict
