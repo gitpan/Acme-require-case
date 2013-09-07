@@ -5,18 +5,20 @@ author:
 build_requires:
   Capture::Tiny: 0
   ExtUtils::MakeMaker: 0
-  File::Find: 0
   File::Spec: 0
   File::Spec::Functions: 0
   File::Temp: 0
+  IO::Handle: 0
+  IPC::Open3: 0
   List::Util: 0
   Test::FailWarnings: 0
   Test::Fatal: 0
   Test::More: 0.96
+  lib: 0
 configure_requires:
   ExtUtils::MakeMaker: 6.30
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300031, CPAN::Meta::Converter version 2.130880'
+generated_by: 'Dist::Zilla version 4.300037, CPAN::Meta::Converter version 2.132140'
 license: apache
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -33,7 +35,7 @@ no_index:
 provides:
   Acme::require::case:
     file: lib/Acme/require/case.pm
-    version: 0.009
+    version: 0.010
 requires:
   B: 0
   Carp: 0
@@ -44,7 +46,8 @@ requires:
   version: 0.87
   warnings: 0
 resources:
-  bugtracker: https://github.com/dagolden/acme-require-case/issues
-  homepage: https://metacpan.org/release/Acme-require-case
-  repository: git://github.com/dagolden/acme-require-case.git
-version: 0.009
+  bugtracker: https://github.com/dagolden/Acme-require-case/issues
+  homepage: https://github.com/dagolden/Acme-require-case
+  repository: https://github.com/dagolden/Acme-require-case.git
+version: 0.010
+x_authority: cpan:DAGOLDEN

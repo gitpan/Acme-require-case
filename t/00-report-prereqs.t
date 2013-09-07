@@ -14,10 +14,11 @@ my @modules = qw(
   Capture::Tiny
   Carp
   ExtUtils::MakeMaker
-  File::Find
   File::Spec
   File::Spec::Functions
   File::Temp
+  IO::Handle
+  IPC::Open3
   List::Util
   Path::Tiny
   Scalar::Util
@@ -25,6 +26,7 @@ my @modules = qw(
   Test::FailWarnings
   Test::Fatal
   Test::More
+  lib
   strict
   version
   warnings

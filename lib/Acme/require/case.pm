@@ -5,7 +5,7 @@ no warnings qw/once redefine/;
 
 package Acme::require::case;
 # ABSTRACT: Make Perl's require case-sensitive
-our $VERSION = '0.009'; # VERSION
+our $VERSION = '0.010'; # VERSION
 
 use B;
 use Carp qw/croak/;
@@ -120,7 +120,7 @@ Acme::require::case - Make Perl's require case-sensitive
 
 =head1 VERSION
 
-version 0.009
+version 0.010
 
 =head1 SYNOPSIS
 
@@ -165,7 +165,7 @@ you load this one.
 =head2 Bugs / Feature Requests
 
 Please report any bugs or feature requests through the issue tracker
-at L<https://github.com/dagolden/acme-require-case/issues>.
+at L<https://github.com/dagolden/Acme-require-case/issues>.
 You will be notified automatically of any progress on your issue.
 
 =head2 Source Code
@@ -173,9 +173,9 @@ You will be notified automatically of any progress on your issue.
 This is open source software.  The code repository is available for
 public review and contribution under the terms of the license.
 
-L<https://github.com/dagolden/acme-require-case>
+L<https://github.com/dagolden/Acme-require-case>
 
-  git clone git://github.com/dagolden/acme-require-case.git
+  git clone https://github.com/dagolden/Acme-require-case.git
 
 =head1 AUTHOR
 
