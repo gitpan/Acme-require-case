@@ -2,7 +2,7 @@ NAME
     Acme::require::case - Make Perl's require case-sensitive
 
 VERSION
-    version 0.010
+    version 0.011
 
 SYNOPSIS
       use Acme::require::case;

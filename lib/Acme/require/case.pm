@@ -5,7 +5,7 @@ no warnings qw/once redefine/;
 
 package Acme::require::case;
 # ABSTRACT: Make Perl's require case-sensitive
-our $VERSION = '0.010'; # VERSION
+our $VERSION = '0.011'; # VERSION
 
 use B;
 use Carp qw/croak/;
@@ -47,15 +47,16 @@ sub require_casely {
             }
         }
         croak "Can't locate $filename in \@INC (\@INC contains @INC)"
-            unless $actual;
+          unless $actual;
     }
 
     # Valid case or invalid?
     if ($valid) {
         $INC{$filename} = $realfilename;
         # uplevel so calling package looks right
-        my $caller      = caller(0);
-        my $packaged_do = eval qq{ package $caller; sub { local %^H; do \$_[0] } };
+        my $caller = caller(0);
+        my $packaged_do =
+          eval qq{ package $caller; sub { local %^H; do \$_[0] } }; ## no critic
         $result = uplevel( 2, $packaged_do, $realfilename );
     }
     else {
@@ -120,7 +121,7 @@ Acme::require::case - Make Perl's require case-sensitive
 
 =head1 VERSION
 
-version 0.010
+version 0.011
 
 =head1 SYNOPSIS
 
