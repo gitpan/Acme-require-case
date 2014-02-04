@@ -5,7 +5,7 @@ no warnings qw/once redefine/;
 
 package Acme::require::case;
 # ABSTRACT: Make Perl's require case-sensitive
-our $VERSION = '0.011'; # VERSION
+our $VERSION = '0.012'; # VERSION
 
 use B;
 use Carp qw/croak/;
@@ -55,8 +55,12 @@ sub require_casely {
         $INC{$filename} = $realfilename;
         # uplevel so calling package looks right
         my $caller = caller(0);
-        my $packaged_do =
-          eval qq{ package $caller; sub { local %^H; do \$_[0] } }; ## no critic
+        # deletes $realfilename from %INC after loading it since that's
+        # just a proxy for $filename, which is already set above
+        my $code = qq{
+            package $caller; sub { local %^H; my \$r = do \$_[0]; delete \$INC{\$_[0]}; \$r }
+          };
+        my $packaged_do = eval $code; ## no critic
         $result = uplevel( 2, $packaged_do, $realfilename );
     }
     else {
@@ -113,7 +117,7 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -121,7 +125,7 @@ Acme::require::case - Make Perl's require case-sensitive
 
 =head1 VERSION
 
-version 0.011
+version 0.012
 
 =head1 SYNOPSIS
 
